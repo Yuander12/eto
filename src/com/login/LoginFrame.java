@@ -13,7 +13,7 @@ public class LoginFrame extends javax.swing.JFrame {
     public LoginFrame() {
         initComponents();
         this.setResizable(false);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
+  
     }
 
   

@@ -48,9 +48,9 @@ public class Dashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 51, 51));
+        jPanel2.setBackground(new java.awt.Color(128, 0, 0));
 
-        jLabel1.setFont(new java.awt.Font("OCR A Extended", 1, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 51));
         jLabel1.setText("ATTENDIFY");
 
@@ -59,27 +59,27 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(285, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(265, 265, 265))
+                .addContainerGap(266, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(264, 264, 264))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(32, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 850, 160));
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 102));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 51, 51), 3, true), "SELECT", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Rockwell Condensed", 1, 24), new java.awt.Color(255, 51, 51))); // NOI18N
+        jPanel3.setBackground(new java.awt.Color(225, 225, 102));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 51, 51), 3, true), "SELECT", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 24), new java.awt.Color(128, 0, 0))); // NOI18N
         jPanel3.setToolTipText("");
 
-        jButton1.setBackground(new java.awt.Color(255, 51, 51));
-        jButton1.setFont(new java.awt.Font("Showcard Gothic", 1, 24)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 102));
+        jButton1.setBackground(new java.awt.Color(128, 0, 0));
+        jButton1.setFont(new java.awt.Font("Arial Unicode MS", 1, 24)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(240, 224, 36));
         jButton1.setText("Add Students");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,29 +87,29 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(255, 51, 51));
-        jButton2.setFont(new java.awt.Font("Showcard Gothic", 1, 24)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 102));
-        jButton2.setText("STUDENTS RECORDS");
+        jButton2.setBackground(new java.awt.Color(128, 0, 0));
+        jButton2.setFont(new java.awt.Font("Arial Unicode MS", 1, 24)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(240, 224, 36));
+        jButton2.setText("Students Record");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(255, 51, 51));
-        jButton3.setFont(new java.awt.Font("Showcard Gothic", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 102));
-        jButton3.setText("New Attendance\n Sheet");
+        jButton3.setBackground(new java.awt.Color(128, 0, 0));
+        jButton3.setFont(new java.awt.Font("Arial Unicode MS", 1, 24)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(240, 224, 36));
+        jButton3.setText("New Attendance  Sheet");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(255, 51, 51));
-        jButton5.setFont(new java.awt.Font("Showcard Gothic", 1, 24)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 102));
+        jButton5.setBackground(new java.awt.Color(128, 0, 0));
+        jButton5.setFont(new java.awt.Font("Arial Unicode MS", 1, 24)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(240, 224, 36));
         jButton5.setText("Check Attendance");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,9 +117,9 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(255, 51, 51));
-        jButton6.setFont(new java.awt.Font("Lucida Fax", 0, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 102));
+        jButton6.setBackground(new java.awt.Color(128, 0, 0));
+        jButton6.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(240, 224, 36));
         jButton6.setText("LOGOUT");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,16 +134,16 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
                 .addGap(71, 71, 71))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(366, 366, 366)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(351, 351, 351)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -151,9 +151,9 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(87, 87, 87)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE))
@@ -164,7 +164,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 850, 450));
 
-        jPanel5.setBackground(new java.awt.Color(255, 51, 51));
+        jPanel5.setBackground(new java.awt.Color(128, 0, 0));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
