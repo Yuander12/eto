@@ -15,7 +15,9 @@ import javax.swing.*;
  */
 public class login extends javax.swing.JFrame {
 
-    
+    String dataConn = "jdbc:mysql://localhost:3306/login_db";
+        String user = "safdar";
+        String password = "123456";
     public login() {
         initComponents();
         this.setResizable(false);
@@ -50,7 +52,7 @@ public class login extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(128, 0, 0));
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 51));
+        jLabel1.setForeground(new java.awt.Color(240, 224, 36));
         jLabel1.setText("ATTENDIFY");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -99,8 +101,8 @@ public class login extends javax.swing.JFrame {
         jLabel3.setText("Password");
 
         login.setBackground(new java.awt.Color(128, 0, 0));
-        login.setFont(new java.awt.Font("Showcard Gothic", 1, 18)); // NOI18N
-        login.setForeground(new java.awt.Color(255, 255, 102));
+        login.setFont(new java.awt.Font("Arial Unicode MS", 1, 18)); // NOI18N
+        login.setForeground(new java.awt.Color(240, 224, 36));
         login.setText("Login");
         login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,9 +125,9 @@ public class login extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("I don't have an account");
 
-        jButton2.setBackground(new java.awt.Color(255, 51, 51));
-        jButton2.setFont(new java.awt.Font("Showcard Gothic", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 102));
+        jButton2.setBackground(new java.awt.Color(128, 0, 0));
+        jButton2.setFont(new java.awt.Font("Arial Unicode MS", 0, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(240, 224, 36));
         jButton2.setText("Sign Up");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,9 +135,9 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(255, 51, 51));
-        jButton3.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 102));
+        jButton3.setBackground(new java.awt.Color(128, 0, 0));
+        jButton3.setFont(new java.awt.Font("Arial Unicode MS", 0, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(240, 224, 36));
         jButton3.setText("Back");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,9 +168,9 @@ public class login extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 397, Short.MAX_VALUE)
+                .addGap(0, 405, Short.MAX_VALUE)
                 .addComponent(login)
                 .addGap(393, 393, 393))
         );
@@ -191,12 +193,12 @@ public class login extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 890, 380));
 
-        jPanel5.setBackground(new java.awt.Color(255, 51, 51));
+        jPanel5.setBackground(new java.awt.Color(128, 0, 0));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -234,40 +236,42 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-       String username = entereduser.getText();
+        String username = entereduser.getText();
         String password = new String(enterpass.getPassword());
-        
+       
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Username or Password cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        String url = "jdbc:mysql://localhost:3306/yuan";
-        String dbUser = "yuan";
-        String dbPassword = "123456";
-        
+       
+       
+       
         try {
-            Connection con = DriverManager.getConnection(url, dbUser, dbPassword);
-            String sql = "SELECT * FROM halaman WHERE username = ? AND password = ?";
+            Connection con = DriverManager.getConnection(dataConn, user, password);
+            String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, username);
             pst.setString(2, password);
             ResultSet rs = pst.executeQuery();
-            
+           
             if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-                // Proceed to the next screen
+                
+                Dashboard db = new Dashboard();
+        db.setVisible(true);
+        db.pack();
+        db.setLocationRelativeTo(null);
+        this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            
+           
             rs.close();
             pst.close();
             con.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Database connection error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    
+   
     }//GEN-LAST:event_loginActionPerformed
 
     private void entereduserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entereduserActionPerformed

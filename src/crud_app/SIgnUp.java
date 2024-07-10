@@ -13,23 +13,17 @@ import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Gab
- */
 public class SIgnUp extends javax.swing.JFrame {
-String dataConn = "jdbc:mysql://localhost:3306/yuan";
-        String user = "yuan";
-        String password = "123456";
+        String dataConn = "jdbc:mysql://localhost:3306/login_db";
+        String user = "safdar";
+        String password = "123456"; // Update this with your actual MySQL password
 
-Connection sqlConn = null;
-PreparedStatement pst = null;
-
- private JTable usersTable;
- private JScrollPane tableScrollPane;
-  public void registerUser(String firstName, String lastName, String contactNumber, String username, String email, String password) {
-    String sql = "select * FROM halaman WHERE first_name=? last_name=? contact_number=? username=? email=? password=?) VALUES (?, ?, ?, ?, ?, ?)";
+    Connection sqlConn = null;
+    PreparedStatement pst = null;
     
+   public void registerUser(String firstName, String lastName, String contactNumber, String username, String email, String password) {
+    String sql = "INSERT  INTO users (first_name, last_name, contact_number, username, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+   
     try {
         // Establish the connection
         sqlConn = DriverManager.getConnection(dataConn, user, password);
@@ -47,7 +41,7 @@ PreparedStatement pst = null;
         int rowsAffected = pst.executeUpdate();
         if (rowsAffected > 0) {
             System.out.println("User registered successfully!");
-            loadUsersTable(); // Refresh the table data
+           
         }
 
     } catch (SQLException e) {
@@ -65,10 +59,9 @@ PreparedStatement pst = null;
 
 
 
-
     public SIgnUp() {
         initComponents();
-        this.setResizable(false);    
+        this.setResizable(false);
     }
     
     @SuppressWarnings("unchecked")
@@ -105,10 +98,10 @@ PreparedStatement pst = null;
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 51, 51));
+        jPanel2.setBackground(new java.awt.Color(128, 0, 0));
 
-        jLabel1.setFont(new java.awt.Font("OCR A Extended", 1, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 51));
+        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(240, 224, 36));
         jLabel1.setText("ATTENDIFY");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -117,8 +110,8 @@ PreparedStatement pst = null;
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(308, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(282, 282, 282))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(252, 252, 252))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,7 +124,7 @@ PreparedStatement pst = null;
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, 180));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 102));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 51, 51), 3, true), "SIGN UP", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Rockwell Condensed", 1, 24), new java.awt.Color(255, 51, 51))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 51, 51), 3, true), "SIGN UP", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Rockwell Condensed", 1, 24), new java.awt.Color(128, 0, 0))); // NOI18N
         jPanel3.setToolTipText("");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Historic", 0, 18)); // NOI18N
@@ -140,9 +133,9 @@ PreparedStatement pst = null;
         jLabel3.setFont(new java.awt.Font("Segoe UI Historic", 0, 18)); // NOI18N
         jLabel3.setText("Password");
 
-        jButton1.setBackground(new java.awt.Color(255, 51, 51));
-        jButton1.setFont(new java.awt.Font("Showcard Gothic", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 102));
+        jButton1.setBackground(new java.awt.Color(128, 0, 0));
+        jButton1.setFont(new java.awt.Font("Arial Unicode MS", 0, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(240, 224, 36));
         jButton1.setText("Login");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,9 +151,9 @@ PreparedStatement pst = null;
 
         jLabel4.setText("Already have an account?");
 
-        signUpButton.setBackground(new java.awt.Color(255, 51, 51));
-        signUpButton.setFont(new java.awt.Font("Showcard Gothic", 1, 24)); // NOI18N
-        signUpButton.setForeground(new java.awt.Color(255, 255, 102));
+        signUpButton.setBackground(new java.awt.Color(128, 0, 0));
+        signUpButton.setFont(new java.awt.Font("Arial Unicode MS", 1, 24)); // NOI18N
+        signUpButton.setForeground(new java.awt.Color(240, 224, 36));
         signUpButton.setText("Sign Up");
         signUpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -295,12 +288,12 @@ PreparedStatement pst = null;
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jButton1))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 890, 420));
 
-        jPanel5.setBackground(new java.awt.Color(255, 51, 51));
+        jPanel5.setBackground(new java.awt.Color(128, 0, 0));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -319,7 +312,7 @@ PreparedStatement pst = null;
     }// </editor-fold>//GEN-END:initComponents
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
-         String firstName = FirstName.getText();
+        String firstName = FirstName.getText();
         String lastName = LastName.getText();
         String contactNumber = contact.getText();
         String user = username.getText();
@@ -335,7 +328,7 @@ PreparedStatement pst = null;
         } else {
             // Register user in the database
             registerUser(firstName, lastName, contactNumber, user, emailId, userPass);
-            
+           
             // Navigate to Login page
             this.hide();
             login log = new login();
@@ -344,6 +337,9 @@ PreparedStatement pst = null;
             log.setLocationRelativeTo(null);
             this.dispose();
         }
+        
+    
+
     }//GEN-LAST:event_signUpButtonActionPerformed
 
     private void LastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LastNameActionPerformed
@@ -379,36 +375,7 @@ PreparedStatement pst = null;
         // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxActionPerformed
 
-    private void loadUsersTable() {
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("First Name");
-        model.addColumn("Last Name");
-        model.addColumn("Contact Number");
-        model.addColumn("Username");
-        model.addColumn("Email");
-
-        String sql = "SELECT first_name=? last_name=? contact_number=? username=? email=? password=? FROM users";
-        try (Connection conn = DriverManager.getConnection(dataConn, user, password);
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                model.addRow(new Object[]{
-                    rs.getString("first_name"),
-                    rs.getString("last_name"),
-                    rs.getString("contact_number"),
-                    rs.getString("username"),
-                    rs.getString("email"),
-                    rs.getString("password")
-                });
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        usersTable.setModel(model);
-    }
-
+    
     
     /**
      * @param args the command line arguments

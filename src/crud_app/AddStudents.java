@@ -4,11 +4,31 @@
  */
 package crud_app;
 
+import java.awt.BorderLayout;
 import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.sql.PreparedStatement;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Connection;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import java.sql.Statement;
+import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import java.awt.Dimension;
 
 /**
  *
@@ -16,12 +36,187 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class AddStudents extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AddStudents
-     */
+     String dataConn = "jdbc:mysql://localhost:3306/login_db";
+        String user = "safdar";
+        String password = "123456";
+        private javax.swing.JTable jTable1;
+private javax.swing.JScrollPane jScrollPane1;
+
+
+public void registerStudent(String student_number, String last_name, String first_name, String middle_name, String image_path) {
+    String sql = "INSERT INTO students (student_number, last_name, first_name, middle_name, image_path) VALUES (?, ?, ?, ?, ?)";
+
+    try (Connection sqlConn = DriverManager.getConnection(dataConn, user, password);
+         PreparedStatement pst = sqlConn.prepareStatement(sql)) {
+
+        // Set the parameters
+        pst.setString(1, student_number);
+        pst.setString(2, last_name);
+        pst.setString(3, first_name);
+        pst.setString(4, middle_name);
+        pst.setString(5, image_path);
+
+        // Execute the update
+        int rowsAffected = pst.executeUpdate();
+        if (rowsAffected > 0) {
+            System.out.println("Student registered successfully!");
+            populateTable();
+        }
+
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
+}
+     private void editStudent(String studentNumber) {
+    Connection sqlConn = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+
+    try {
+        sqlConn = DriverManager.getConnection(dataConn, user, password);
+        pst = sqlConn.prepareStatement("SELECT * FROM students WHERE student_number = ?");
+        pst.setString(1, studentNumber);
+
+        rs = pst.executeQuery();
+        if (rs.next()) {
+            // Display the student details in a dialog or a form
+            String lastName = rs.getString("last_name");
+            String firstName = rs.getString("first_name");
+            String middleName = rs.getString("middle_name");
+            String imagePath = rs.getString("image_path");
+
+            // Create a dialog box with input fields for editing
+            EditStudentDialog dialog = new EditStudentDialog(this, studentNumber, lastName, firstName, middleName, imagePath);
+            dialog.setVisible(true);
+
+            // Update the student details if the dialog is closed with OK
+            if (dialog.getUpdateStatus()) {
+                String newLastName = dialog.getLastName();
+                String newFirstName = dialog.getFirstName();
+                String newMiddleName = dialog.getMiddleName();
+                String newImagePath = dialog.getImagePath();
+
+                // Update the student details in the database
+                updateStudent(studentNumber, newLastName, newFirstName, newMiddleName, newImagePath);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Student not found.");
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error editing student: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                // Ignore
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                // Ignore
+            }
+        }
+        if (sqlConn != null) {
+            try {
+                sqlConn.close();
+            } catch (SQLException e) {
+                // Ignore
+            }
+        }
+    }
+}
+     private void updateStudent(String studentNumber, String lastName, String firstName, String middleName, String imagePath) {
+    Connection sqlConn = null;
+    PreparedStatement pst = null;
+
+    try {
+        sqlConn = DriverManager.getConnection(dataConn, user, password);
+        pst = sqlConn.prepareStatement("UPDATE students SET last_name = ?, first_name = ?, middle_name = ?, image_path = ? WHERE student_number = ?");
+        pst.setString(1, lastName);
+        pst.setString(2, firstName);
+        pst.setString(3, middleName);
+        pst.setString(4, imagePath);
+        pst.setString(5, studentNumber);
+       
+
+        int rowsAffected = pst.executeUpdate();
+        if (rowsAffected > 0) {
+            System.out.println("Student updated successfully!");
+        }
+        populateTable();
+
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    } finally {
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                // Ignore
+            }
+        }
+        if (sqlConn != null) {
+            try {
+                sqlConn.close();
+            } catch (SQLException e) {
+                // Ignore
+            }
+        }
+    }
+}
+     private void deleteStudent(String studentNumber) {
+    Connection sqlConn = null;
+    PreparedStatement pst = null;
+
+    try {
+        sqlConn = DriverManager.getConnection(dataConn, user, password);
+        pst = sqlConn.prepareStatement("DELETE FROM students WHERE student_number =?");
+        pst.setString(1, studentNumber);
+
+        int rowsAffected = pst.executeUpdate();
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(this, "Student deleted successfully!");
+            populateTable();
+        } else {
+            JOptionPane.showMessageDialog(this, "Student not found.");
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error deleting student: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        if (pst!= null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                // Ignore
+            }
+        }
+        if (sqlConn!= null) {
+            try {
+                sqlConn.close();
+            } catch (SQLException e) {
+                // Ignore
+            }
+        }
+    }
+}
     public AddStudents() {
         initComponents();
         this.setResizable(false);
+         jTable1 = new javax.swing.JTable();
+    jScrollPane1 = new javax.swing.JScrollPane(jTable1);
+
+    jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 540, 440));
+    populateJList();
+    populateTable();
+    populateCheckBoxPanel();
+     // Add this line
+    
+     
     }
 
     /**
@@ -46,15 +241,14 @@ public class AddStudents extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         Fname = new javax.swing.JTextField();
         Mname = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         attach = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        Mname1 = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        Mname2 = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
 
@@ -159,29 +353,6 @@ public class AddStudents extends javax.swing.JFrame {
         });
         jPanel3.add(Mname, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 165, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Student number", "Last Name", "First Name", "Middle Name", "Image"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                true, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(jTable1);
-
-        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 70, 595, -1));
-
         jButton4.setBackground(new java.awt.Color(128, 0, 0));
         jButton4.setFont(new java.awt.Font("Arial Unicode MS", 1, 24)); // NOI18N
         jButton4.setForeground(new java.awt.Color(240, 224, 36));
@@ -212,28 +383,32 @@ public class AddStudents extends javax.swing.JFrame {
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 360, -1, -1));
+        jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 400, -1, -1));
 
         attach.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 attachActionPerformed(evt);
             }
         });
-        jPanel3.add(attach, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 360, 165, -1));
+        jPanel3.add(attach, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 400, 165, -1));
 
         jLabel2.setText("Insert only jpg.,png.,jpeg.");
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, -1, -1));
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 450, -1, -1));
 
         jLabel16.setFont(new java.awt.Font("Copperplate Gothic Light", 0, 18)); // NOI18N
-        jLabel16.setText("Middle Name");
-        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, -1, 39));
+        jLabel16.setText("Class");
+        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 340, -1, 39));
 
-        Mname1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel17.setFont(new java.awt.Font("Copperplate Gothic Light", 0, 18)); // NOI18N
+        jLabel17.setText("Middle Name");
+        jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, -1, 39));
+
+        Mname2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Mname1ActionPerformed(evt);
+                Mname2ActionPerformed(evt);
             }
         });
-        jPanel3.add(Mname1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 300, 165, -1));
+        jPanel3.add(Mname2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 300, 165, -1));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 1270, 560));
 
@@ -268,7 +443,12 @@ public class AddStudents extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+
+        Mname.setText("");
+    LName.setText("");
+    Fname.setText("");
+    Mname.setText("");
+    attach.setText("");
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -285,11 +465,22 @@ public class AddStudents extends javax.swing.JFrame {
     }//GEN-LAST:event_MnameActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+         // delete
+        String studentNumber = JOptionPane.showInputDialog(this, "Enter the student number to delete:");
+
+    if (studentNumber!= null &&!studentNumber.isEmpty()) {
+        deleteStudent(studentNumber);
+    }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+         // Edit student
+     // Prompt for student number input
+    String studentNumber = JOptionPane.showInputDialog(this, "Enter the student number:");
+
+    if (studentNumber != null && !studentNumber.isEmpty()) {
+        editStudent(studentNumber);
+    }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void attachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attachActionPerformed
@@ -305,12 +496,128 @@ public class AddStudents extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        String student_number = Mname.getText();
+    String last_name = LName.getText();
+    String first_name = Fname.getText();
+    String middle_name = Mname.getText();
+    String image_path = attach.getText();
 
-    private void Mname1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Mname1ActionPerformed
+    registerStudent(student_number, last_name, first_name, middle_name, image_path);
+    populateTable();
+   
+    Mname.setText("");
+    LName.setText("");
+    Fname.setText("");
+    Mname.setText("");
+    attach.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+private void populateTable() {
+    Connection sqlConn = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+
+    try {
+        sqlConn = DriverManager.getConnection(dataConn, user, password);
+        pst = sqlConn.prepareStatement("SELECT * FROM students");
+
+        rs = pst.executeQuery();
+        ResultSetMetaData metaData = rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        DefaultTableModel tableModel = new DefaultTableModel();
+        for (int i = 1; i <= columnCount; i++) {
+            tableModel.addColumn(metaData.getColumnLabel(i));
+        }
+
+        while (rs.next()) {
+            Object[] row = new Object[columnCount];
+            for (int i = 1; i <= columnCount; i++) {
+                if (i == 5) { // Assuming the image path is in the 5th column
+                    String imagePath = rs.getString(i);
+                    ImageIcon imageIcon = new ImageIcon(imagePath);
+                    row[i - 1] = imageIcon;
+                } else {
+                    row[i - 1] = rs.getObject(i);
+                }
+            }
+            tableModel.addRow(row);
+        }
+
+        jTable1.setModel(tableModel);
+        jTable1.getColumnModel().getColumn(4).setCellRenderer(new ImageRenderer()); // Set the renderer for the image column
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error populating table: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        if (rs!= null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                // Ignore
+            }
+        }
+        if (pst!= null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                // Ignore
+            }
+        }
+        if (sqlConn!= null) {
+            try {
+                sqlConn.close();
+            } catch (SQLException e) {
+                // Ignore
+            }
+        }
+    }
+}
+
+private void populateJList() {
+    try (Connection conn = DriverManager.getConnection(dataConn, user, password);
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery("SELECT class_name FROM classes")) {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        while (rs.next()) {
+            String className = rs.getString("class_name");
+            listModel.addElement(className);
+        }
+        
+    } catch (SQLException e) {
+        System.out.println("Error populating JList: " + e.getMessage());
+    }
+}
+private JPanel getYourContainer() {
+    // Replace jPanel3 with the actual container component where you want to add the checkbox panel
+    JPanel yourContainer = jPanel3;
+    yourContainer.setLayout(new BorderLayout()); // Set the layout manager to BorderLayout
+    return yourContainer;
+}
+
+private void populateCheckBoxPanel() {
+    try (Connection conn = DriverManager.getConnection(dataConn, user, password);
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery("SELECT class_name FROM classes")) {
+        JPanel checkBoxPanel = new JPanel();
+       checkBoxPanel.setPreferredSize(new Dimension(50, 50));
+        
+        while (rs.next()) {
+            String className = rs.getString("class_name");
+            JCheckBox checkBox = new JCheckBox(className);
+            checkBoxPanel.add(checkBox);
+        }
+        
+        // Add the panel to your GUI
+        JPanel yourContainer = getYourContainer();
+        yourContainer.add(checkBoxPanel, BorderLayout.CENTER); // Add the checkBoxPanel to the center of the yourContainer
+    } catch (SQLException e) {
+        System.out.println("Error populating checkbox panel: " + e.getMessage());
+    }
+}
+
+    private void Mname2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Mname2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Mname1ActionPerformed
+    }//GEN-LAST:event_Mname2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -351,7 +658,7 @@ public class AddStudents extends javax.swing.JFrame {
     private javax.swing.JTextField Fname;
     private javax.swing.JTextField LName;
     private javax.swing.JTextField Mname;
-    private javax.swing.JTextField Mname1;
+    private javax.swing.JTextField Mname2;
     private javax.swing.JTextField attach;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -365,13 +672,12 @@ public class AddStudents extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
     private static class imagePath {
